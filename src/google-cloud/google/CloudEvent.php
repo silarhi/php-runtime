@@ -18,7 +18,7 @@
 
 namespace Google\CloudFunctions;
 
-class CloudEvent implements \JsonSerializable
+class CloudEvent implements \JsonSerializable, \Stringable
 {
     // Required Fields
     private $id;
@@ -137,7 +137,7 @@ class CloudEvent implements \JsonSerializable
         ];
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         $output = implode("\n", [
             'CLOUDEVENT metadata:',

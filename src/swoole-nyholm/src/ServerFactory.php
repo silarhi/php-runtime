@@ -29,10 +29,10 @@ class ServerFactory
 
     public function __construct(array $options = [])
     {
-        $options['host'] = $options['host'] ?? $_SERVER['SWOOLE_HOST'] ?? $_ENV['SWOOLE_HOST'] ?? self::DEFAULT_OPTIONS['host'];
-        $options['port'] = $options['port'] ?? $_SERVER['SWOOLE_PORT'] ?? $_ENV['SWOOLE_PORT'] ?? self::DEFAULT_OPTIONS['port'];
-        $options['mode'] = $options['mode'] ?? $_SERVER['SWOOLE_MODE'] ?? $_ENV['SWOOLE_MODE'] ?? self::DEFAULT_OPTIONS['mode'];
-        $options['sock_type'] = $options['sock_type'] ?? $_SERVER['SWOOLE_SOCK_TYPE'] ?? $_ENV['SWOOLE_SOCK_TYPE'] ?? self::DEFAULT_OPTIONS['sock_type'];
+        $options['host'] ??= $_SERVER['SWOOLE_HOST'] ?? $_ENV['SWOOLE_HOST'] ?? self::DEFAULT_OPTIONS['host'];
+        $options['port'] ??= $_SERVER['SWOOLE_PORT'] ?? $_ENV['SWOOLE_PORT'] ?? self::DEFAULT_OPTIONS['port'];
+        $options['mode'] ??= $_SERVER['SWOOLE_MODE'] ?? $_ENV['SWOOLE_MODE'] ?? self::DEFAULT_OPTIONS['mode'];
+        $options['sock_type'] ??= $_SERVER['SWOOLE_SOCK_TYPE'] ?? $_ENV['SWOOLE_SOCK_TYPE'] ?? self::DEFAULT_OPTIONS['sock_type'];
 
         $this->options = array_replace_recursive(self::DEFAULT_OPTIONS, $options);
     }

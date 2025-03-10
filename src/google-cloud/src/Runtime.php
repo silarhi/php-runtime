@@ -57,7 +57,7 @@ class Runtime extends GenericRuntime
         // We expect JSON if the content-type ends in "json" or if the event
         // type is legacy or structured Cloud Event.
         $shouldValidateJson = in_array($eventType, [self::TYPE_LEGACY, self::TYPE_STRUCTURED])
-            || (isset($headers['content-type']) && 'json' === substr($headers['content-type'], -4));
+            || (isset($headers['content-type']) && str_ends_with($headers['content-type'], 'json'));
 
         if (!$shouldValidateJson) {
             $data = $body;
@@ -174,7 +174,7 @@ class Runtime extends GenericRuntime
         foreach ($server as $key => $value) {
             // Apache prefixes environment variables with REDIRECT_
             // if they are added by rewrite rules
-            if (0 === \strpos($key, 'REDIRECT_')) {
+            if (str_starts_with($key, 'REDIRECT_')) {
                 $key = \substr($key, 9);
 
                 // We will not overwrite existing variables with the
@@ -184,14 +184,14 @@ class Runtime extends GenericRuntime
                 }
             }
 
-            if ($value && 0 === \strpos($key, 'HTTP_')) {
+            if ($value && str_starts_with($key, 'HTTP_')) {
                 $name = \strtr(\strtolower(\substr($key, 5)), '_', '-');
                 $headers[$name] = $value;
 
                 continue;
             }
 
-            if ($value && 0 === \strpos($key, 'CONTENT_')) {
+            if ($value && str_starts_with($key, 'CONTENT_')) {
                 $name = 'content-'.\strtolower(\substr($key, 8));
                 $headers[$name] = $value;
 

@@ -24,8 +24,8 @@ class ServerFactory
 
     public function __construct(array $options = [])
     {
-        $options['host'] = $options['host'] ?? $_SERVER['REACT_HOST'] ?? $_ENV['REACT_HOST'] ?? self::DEFAULT_OPTIONS['host'];
-        $options['port'] = $options['port'] ?? $_SERVER['REACT_PORT'] ?? $_ENV['REACT_PORT'] ?? self::DEFAULT_OPTIONS['port'];
+        $options['host'] ??= $_SERVER['REACT_HOST'] ?? $_ENV['REACT_HOST'] ?? self::DEFAULT_OPTIONS['host'];
+        $options['port'] ??= $_SERVER['REACT_PORT'] ?? $_ENV['REACT_PORT'] ?? self::DEFAULT_OPTIONS['port'];
 
         $this->options = array_replace_recursive(self::DEFAULT_OPTIONS, $options);
     }
@@ -36,9 +36,7 @@ class ServerFactory
         $loop->addSignal(SIGTERM, function (int $signal) {
             exit(128 + $signal);
         });
-        $server = new HttpServer($loop, function (ServerRequestInterface $request) use ($requestHandler) {
-            return $requestHandler->handle($request);
-        });
+        $server = new HttpServer($loop, fn (ServerRequestInterface $request) => $requestHandler->handle($request));
 
         $socket = new SocketServer(sprintf('%s:%s', $this->options['host'], $this->options['port']), [], $loop);
         $server->listen($socket);

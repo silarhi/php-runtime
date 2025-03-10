@@ -10,7 +10,7 @@ class AutoDiscoverTest extends TestCase
     public function testAutoDiscoverClasses()
     {
         $classes = [
-            'Symfony\Runtime\Google\CloudFunctions\CloudEventRuntime',
+            \Symfony\Runtime\Google\CloudFunctions\CloudEventRuntime::class,
         ];
 
         foreach ($classes as $class) {

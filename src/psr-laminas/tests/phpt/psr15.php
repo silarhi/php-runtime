@@ -6,14 +6,12 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 require __DIR__.'/autoload.php';
 
-return function (array $context) {
-    return new class implements RequestHandlerInterface {
-        public function handle(ServerRequestInterface $request): ResponseInterface
-        {
-            $response = new \Laminas\Diactoros\Response();
-            $response->getBody()->write('Hello PSR-15');
+return fn (array $context) => new class implements RequestHandlerInterface {
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        $response = new \Laminas\Diactoros\Response();
+        $response->getBody()->write('Hello PSR-15');
 
-            return $response;
-        }
-    };
+        return $response;
+    }
 };

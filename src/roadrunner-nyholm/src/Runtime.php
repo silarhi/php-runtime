@@ -17,9 +17,7 @@ class Runtime extends GenericRuntime
     public function getRunner(?object $application): RunnerInterface
     {
         if ($application instanceof RequestHandlerInterface) {
-            return new Runner(function (ServerRequestInterface $r) use ($application) {
-                return $application->handle($r);
-            });
+            return new Runner(fn (ServerRequestInterface $r) => $application->handle($r));
         }
 
         if (is_callable($application)) {

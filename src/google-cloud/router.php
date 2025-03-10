@@ -5,7 +5,7 @@
  */
 $documentRoot = __DIR__.'/../../../';
 if ($functionSource = $_SERVER['FUNCTION_SOURCE'] ?? null) {
-    if (0 !== strpos($functionSource, '/')) {
+    if (!str_starts_with($functionSource, '/')) {
         // Make the path relative
         $relativeSource = $documentRoot.$functionSource;
         if (!file_exists($relativeSource)) {

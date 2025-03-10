@@ -10,9 +10,9 @@ class AutoDiscoverTest extends TestCase
     public function testAutoDiscoverClasses()
     {
         $classes = [
-            'Symfony\Runtime\Psr\Http\Message\ResponseInterfaceRuntime',
-            'Symfony\Runtime\Psr\Http\Message\ServerRequestInterfaceRuntime',
-            'Symfony\Runtime\Psr\Http\Server\RequestHandlerInterfaceRuntime',
+            \Symfony\Runtime\Psr\Http\Message\ResponseInterfaceRuntime::class,
+            \Symfony\Runtime\Psr\Http\Message\ServerRequestInterfaceRuntime::class,
+            \Symfony\Runtime\Psr\Http\Server\RequestHandlerInterfaceRuntime::class,
         ];
 
         foreach ($classes as $class) {

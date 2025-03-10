@@ -200,7 +200,7 @@ final class LambdaClient
     {
         $stackTraceAsArray = explode(PHP_EOL, $error->getTraceAsString());
         $errorFormatted = [
-            'errorType' => get_class($error),
+            'errorType' => $error::class,
             'errorMessage' => $error->getMessage(),
             'stack' => $stackTraceAsArray,
         ];
@@ -211,7 +211,7 @@ final class LambdaClient
             do {
                 $previousError = $previousError->getPrevious();
                 $previousErrors[] = [
-                    'errorType' => get_class($previousError),
+                    'errorType' => null !== $previousError ? $previousError::class : self::class,
                     'errorMessage' => $previousError->getMessage(),
                     'stack' => explode(PHP_EOL, $previousError->getTraceAsString()),
                 ];
@@ -228,7 +228,7 @@ final class LambdaClient
         // Send an "error" Lambda response
         $url = "http://{$this->apiUrl}/2018-06-01/runtime/invocation/$invocationId/error";
         $this->postJson($url, [
-            'errorType' => get_class($error),
+            'errorType' => $error::class,
             'errorMessage' => $error->getMessage(),
             'stackTrace' => $stackTraceAsArray,
         ]);
@@ -245,7 +245,7 @@ final class LambdaClient
         echo "$message\n";
         if ($error) {
             if ($error instanceof \Exception) {
-                $errorMessage = get_class($error).': '.$error->getMessage();
+                $errorMessage = $error::class.': '.$error->getMessage();
             } else {
                 $errorMessage = $error->getMessage();
             }
@@ -261,7 +261,7 @@ final class LambdaClient
         $url = "http://{$this->apiUrl}/2018-06-01/runtime/init/error";
         $this->postJson($url, [
             'errorMessage' => $message.' '.($error ? $error->getMessage() : ''),
-            'errorType' => $error ? get_class($error) : 'Internal',
+            'errorType' => $error ? $error::class : 'Internal',
             'stackTrace' => $error ? explode(PHP_EOL, $error->getTraceAsString()) : [],
         ]);
 
@@ -343,7 +343,7 @@ final class LambdaClient
 
         // Only run the code in 1% of requests
         // We don't need to collect all invocations, only to get an approximation
-        if (rand(0, 99) > 0) {
+        if (random_int(0, 99) > 0) {
             return;
         }
 

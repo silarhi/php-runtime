@@ -26,9 +26,9 @@ class Runtime extends SymfonyRuntime
      */
     public function __construct(array $options = [])
     {
-        $options['bref_loop_max'] = $options['bref_loop_max'] ?? $_SERVER['BREF_LOOP_MAX'] ?? $_ENV['BREF_LOOP_MAX'] ?? 1;
-        $options['bref_runner_type'] = $options['bref_runner_type'] ?? $_SERVER['BREF_RUNNER_TYPE'] ?? $_ENV['BREF_RUNNER_TYPE'] ?? 'aws';
-        $options['bref_local_runner_data'] = $options['bref_local_runner_data'] ?? $_SERVER['BREF_LOCAL_RUNNER_DATA'] ?? $_ENV['BREF_LOCAL_RUNNER_DATA'] ?? [];
+        $options['bref_loop_max'] ??= $_SERVER['BREF_LOOP_MAX'] ?? $_ENV['BREF_LOOP_MAX'] ?? 1;
+        $options['bref_runner_type'] ??= $_SERVER['BREF_RUNNER_TYPE'] ?? $_ENV['BREF_RUNNER_TYPE'] ?? 'aws';
+        $options['bref_local_runner_data'] ??= $_SERVER['BREF_LOCAL_RUNNER_DATA'] ?? $_ENV['BREF_LOCAL_RUNNER_DATA'] ?? [];
         parent::__construct($options);
     }
 

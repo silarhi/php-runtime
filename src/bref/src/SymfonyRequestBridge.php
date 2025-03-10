@@ -109,7 +109,7 @@ class SymfonyRequestBridge
      */
     private static function parseKeyAndInsertValueInArray(array &$array, string $key, $value): void
     {
-        if (false === strpos($key, '[')) {
+        if (!str_contains($key, '[')) {
             $array[$key] = $value;
 
             return;
@@ -128,7 +128,7 @@ class SymfonyRequestBridge
             // Skip two special cases:
             // [[ in the key produces empty string
             // [test : starts with [ but does not end with ]
-            if ('' === $part || ']' !== substr($part, -1)) {
+            if ('' === $part || !str_ends_with($part, ']')) {
                 // Malformed key, we use it "as is"
                 $array[$key] = $value;
 

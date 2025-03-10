@@ -82,7 +82,7 @@ class LegacyEventMapper
 
     public function fromJsonData(array $jsonData): CloudEvent
     {
-        list($context, $data) = $this->getLegacyEventContextAndData($jsonData);
+        [$context, $data] = $this->getLegacyEventContextAndData($jsonData);
 
         $eventType = $context->getEventType();
         $resourceName = $context->getResourceName();
@@ -96,7 +96,7 @@ class LegacyEventMapper
         $ceService = $context->getService() ?: $this->ceService($eventType);
 
         // Split the background event resource into a CloudEvent resource and subject.
-        list($ceResource, $ceSubject) = $this->ceResourceAndSubject($ceService, $resourceName);
+        [$ceResource, $ceSubject] = $this->ceResourceAndSubject($ceService, $resourceName);
 
         $ceTime = $context->getTimestamp();
 
@@ -150,18 +150,14 @@ class LegacyEventMapper
 
     private function ceType(string $eventType): string
     {
-        if (isset(self::$ceTypeMap[$eventType])) {
-            return self::$ceTypeMap[$eventType];
-        }
-
         // Default to the legacy event type if no mapping is found.
-        return $eventType;
+        return self::$ceTypeMap[$eventType] ?? $eventType;
     }
 
     private function ceService(string $eventType): string
     {
         foreach (self::$ceServiceMap as $prefix => $ceService) {
-            if (0 === strpos($eventType, $prefix)) {
+            if (str_starts_with($eventType, $prefix)) {
                 return $ceService;
             }
         }
