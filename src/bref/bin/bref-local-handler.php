@@ -43,7 +43,7 @@ if (isset($argv[2])) {
 
     try {
         $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-    } catch (JsonException $e) {
+    } catch (JsonException) {
         throw new Exception('The JSON provided for the event data is invalid JSON.');
     }
 
